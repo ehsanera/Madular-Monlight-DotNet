@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
 using Module.Role.Application.Dto;
 using Module.Role.Domain;
 using Module.Role.Persistence;
@@ -36,11 +35,19 @@ public class RoleService : IBaseService<RoleCreateDto, RoleUpdateDto, RoleDto, i
         );
     }
 
-    public async Task<Result<IEnumerable<RoleDto>>> GetAll()
+    public async Task<Result<Paginator<RoleDto>>> GetAll(
+        int currentPageNumber,
+        int itemsCountPerPage
+    )
     {
-        var res = await _roleRepository.GetAll().ProjectTo<RoleDto>(_mapper.ConfigurationProvider).ToListAsync();
+        var res = await _roleRepository.GetAll()
+            .ProjectTo<RoleDto>(_mapper.ConfigurationProvider)
+            .Paginate(
+                currentPageNumber,
+                itemsCountPerPage
+            );
 
-        return Result<IEnumerable<RoleDto>>.CreateResult(
+        return Result<Paginator<RoleDto>>.CreateResult(
             res.Count == 0,
             res,
             "No role found"
@@ -77,17 +84,17 @@ public class RoleService : IBaseService<RoleCreateDto, RoleUpdateDto, RoleDto, i
 
         return Result<RoleDto>.CreateResult(
             await _roleRepository.SaveChangesAsync() > 0,
-            res, 
+            res,
             "Problem in updating role"
         );
     }
 
     public async Task<Result<bool>> Delete(
         RoleDto entity
-        )
+    )
     {
         var deletingRole = _mapper.Map(entity, new Domain.Role());
-        
+
         _roleRepository.Remove(deletingRole);
 
         return Result<bool>.CreateResult(

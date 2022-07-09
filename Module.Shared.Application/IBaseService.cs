@@ -10,7 +10,9 @@ public interface IBaseService<CT, UT, T, ID> where CT : IBaseCreateDto
         ID id
     );
 
-    Task<Result<IEnumerable<T>>> GetAll();
+    Task<Result<Paginator<T>>> GetAll(
+        int currentPageNumber,
+        int itemsCountPerPage);
 
     Task<Result<T>> AddAsync(
         CT t

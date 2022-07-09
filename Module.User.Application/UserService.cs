@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
 using Module.Shared.Application;
 using Module.Shared.Application.Core;
 using Module.User.Application.Dto;
@@ -36,11 +35,19 @@ public class UserService : IBaseService<UserCreateDto, UserUpdateDto, UserDto, i
         );
     }
 
-    public async Task<Result<IEnumerable<UserDto>>> GetAll()
+    public async Task<Result<Paginator<UserDto>>> GetAll(
+        int currentPageNumber,
+        int itemsCountPerPage
+    )
     {
-        var res = await _userRepository.GetAll().ProjectTo<UserDto>(_mapper.ConfigurationProvider).ToListAsync();
+        var res = await _userRepository.GetAll()
+            .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
+            .Paginate(
+                currentPageNumber,
+                itemsCountPerPage
+            );
 
-        return Result<IEnumerable<UserDto>>.CreateResult(
+        return Result<Paginator<UserDto>>.CreateResult(
             res.Count == 0,
             res,
             "No user found"
