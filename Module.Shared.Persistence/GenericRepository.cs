@@ -72,4 +72,9 @@ public abstract class GenericRepository<T, ID, TContext> : IGenericRepository<T,
     {
         return await CurrentDbSet.FindByIdsAsync(ids);
     }
+
+    public IQueryable<T> GetAll()
+    {
+        return CurrentDbSet.AsQueryable();
+    }
 }
