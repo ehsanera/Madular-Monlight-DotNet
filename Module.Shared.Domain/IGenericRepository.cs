@@ -34,4 +34,6 @@ public interface IGenericRepository<T, ID, TContext> where T : class where TCont
     Task<IEnumerable<T>> GetByIdsAsync(
         IEnumerable<ID> ids
     );
+
+    IQueryable<T> GetAll();
 }
