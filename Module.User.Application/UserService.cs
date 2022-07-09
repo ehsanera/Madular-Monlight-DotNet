@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Module.Shared.Application;
 using Module.User.Application.Dto;
 using Module.User.Domain;
+using Module.User.Persistence;
 
 namespace Module.User.Application;
 
 public class UserService : IBaseService<UserCreateDto, UserUpdateDto, UserDto, int>
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUserRepository<UserContext> _userRepository;
     private readonly IMapper _mapper;
 
-    public UserService(IUserRepository userRepository, IMapper mapper)
+    public UserService(IUserRepository<UserContext> userRepository, IMapper mapper)
     {
         _userRepository = userRepository;
         _mapper = mapper;
@@ -46,7 +44,7 @@ public class UserService : IBaseService<UserCreateDto, UserUpdateDto, UserDto, i
             _userRepository.Update(entity),
             new UserDto()
         );
-        await _userRepository.SaveAsync();
+        await _userRepository.SaveChangesAsync();
         return userDto;
     }
 

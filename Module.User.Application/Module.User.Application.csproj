@@ -9,6 +9,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Module.Shared.Application\Module.Shared.Application.csproj" />
       <ProjectReference Include="..\Module.User.Domain\Module.User.Domain.csproj" />
+      <ProjectReference Include="..\Module.User.Persistence\Module.User.Persistence.csproj" />
     </ItemGroup>
 
     <ItemGroup>
