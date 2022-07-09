@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Module.Shared.Application;
 using Module.User.Application.Dto;
 using Module.User.Domain;

@@ -1,4 +1,5 @@
-﻿using Module.Shared.Domain;
+﻿using System.Collections.Generic;
+using Module.Shared.Domain;
 
 namespace Module.User.Domain;
 
