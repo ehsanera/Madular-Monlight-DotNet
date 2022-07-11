@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using Module.Shared.Domain;
 
 namespace Module.User.Domain;
 
-public interface IUserRepository : IGenericRepository<User, int>
+public interface IUserRepository<TContext> : IGenericRepository<User, int, TContext> where TContext : DbContext
 {
     IEnumerable<User> SearchByName(string search);
 }
